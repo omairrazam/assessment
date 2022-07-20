@@ -13,7 +13,7 @@
 
   <div>
     <%= form.label :language, style: "display: block" %>
-    <%= form.number_field :language %>
+    <%= form.select(:language , PropertyTransaction.languages.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_transaction.language}, {class: "ui dropdown search"} ) %>
   </div>
 
   <div>
@@ -33,7 +33,7 @@
 
   <div>
     <%= form.label :is_owner, style: "display: block" %>
-    <%= form.number_field :is_owner %>
+    <%= form.select(:is_owner , PropertyTransaction.is_owners.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_transaction.is_owner}, {class: "ui dropdown search"} ) %>
   </div>
 
   <div>
@@ -48,14 +48,19 @@
 
   <div>
     <%= form.label :property_type_id, style: "display: block" %>
-    <%= form.text_field :property_type_id %>
+    <%= form.select(:property_type_id , PropertyType.all.collect { |property| [ property.name, property.id ] }, {selected: property_transaction.property_type_id}, {class: "ui dropdown search"} ) %>
   </div>
 
   <div>
-    <%= form.label :quotation_id, style: "display: block" %>
-    <%= form.text_field :quotation_id %>
+    <%= form.hidden_field :quotation_id%>
   </div>
 
+  <%= form.fields_for :address do |address_subform| %>
+    # fields for the associated address object
+    address_subform.text_field :street
+    address_subform.text_field :number
+  <% end %>
+  
   <div>
     <%= form.submit %>
   </div>

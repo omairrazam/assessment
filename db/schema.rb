@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_20_150939) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_20_162616) do
   create_table "insurances", force: :cascade do |t|
     t.text "notes"
     t.string "referral_agent_name"
@@ -44,6 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_150939) do
     t.integer "quotation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "property_id", null: false
+    t.index ["property_id"], name: "index_property_transactions_on_property_id"
     t.index ["property_type_id"], name: "index_property_transactions_on_property_type_id"
     t.index ["quotation_id"], name: "index_property_transactions_on_quotation_id"
   end
@@ -86,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_150939) do
     t.index ["quotation_id"], name: "index_transactions_on_quotation_id"
   end
 
+  add_foreign_key "property_transactions", "properties"
   add_foreign_key "property_transactions", "property_types"
   add_foreign_key "property_transactions", "quotations"
   add_foreign_key "quotations", "insurances"

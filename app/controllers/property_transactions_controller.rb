@@ -25,7 +25,7 @@ class PropertyTransactionsController < ApplicationController
 
     respond_to do |format|
       if @property_transaction.save
-        format.html { redirect_to property_transaction_url(@property_transaction), notice: "Property transaction was successfully created." }
+        format.html { redirect_to edit_quotation_url(@property_transaction.quotation), notice: "Property transaction was successfully created." }
         format.json { render :show, status: :created, location: @property_transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class PropertyTransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @property_transaction.update(property_transaction_params)
-        format.html { redirect_to property_transaction_url(@property_transaction), notice: "Property transaction was successfully updated." }
+        format.html { redirect_to edit_quotation_url(@property_transaction.quotation), notice: "Property transaction was successfully updated." }
         format.json { render :show, status: :ok, location: @property_transaction }
       else
         format.html { render :edit, status: :unprocessable_entity }

@@ -17,7 +17,9 @@ class QuotationsController < ApplicationController
 
   # GET /quotations/1/edit
   def edit
-    @quotation.build_property_transaction
+    if @quotation.property_transaction.blank?
+      @quotation.build_property_transaction
+    end
   end
 
   # POST /quotations or /quotations.json
@@ -41,7 +43,7 @@ class QuotationsController < ApplicationController
   def update
     respond_to do |format|
       if @quotation.update(quotation_params)
-        format.html { redirect_to quotation_url(@quotation), notice: "Quotation was successfully updated." }
+        format.html { redirect_to edit_quotation_url(@quotation), notice: "Quotation was successfully updated." }
         format.json { render :show, status: :ok, location: @quotation }
       else
         format.html { render :edit, status: :unprocessable_entity }

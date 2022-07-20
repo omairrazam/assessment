@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Property transactions</h1>
+
+<div id="property_transactions">
+  <% @property_transactions.each do |property_transaction| %>
+    <%= render property_transaction %>
+    <p>
+      <%= link_to "Show this property transaction", property_transaction %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New property transaction", new_property_transaction_path %>

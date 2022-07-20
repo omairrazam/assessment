@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  language: 1
+  first_homeowner_name: MyString
+  second_homeowner_name: MyString
+  third_homeowner_name: MyString
+  is_owner: 1
+  purshase_date: 2022-07-20 20:09:39
+  property_value: MyString
+  property_type: one
+  quotation: one
+
+two:
+  language: 1
+  first_homeowner_name: MyString
+  second_homeowner_name: MyString
+  third_homeowner_name: MyString
+  is_owner: 1
+  purshase_date: 2022-07-20 20:09:39
+  property_value: MyString
+  property_type: two
+  quotation: two

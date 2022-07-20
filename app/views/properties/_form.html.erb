@@ -1,0 +1,57 @@
+<%= form_with(model: property) do |form| %>
+  <% if property.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
+
+      <ul>
+        <% property.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :lot_number, style: "display: block" %>
+    <%= form.text_field :lot_number %>
+  </div>
+
+  <div>
+    <%= form.label :address, style: "display: block" %>
+    <%= form.text_area :address %>
+  </div>
+
+  <div>
+    <%= form.label :city, style: "display: block" %>
+    <%= form.text_field :city %>
+  </div>
+
+  <div>
+    <%= form.label :postal_code, style: "display: block" %>
+    <%= form.text_field :postal_code %>
+  </div>
+
+  <div>
+    <%= form.label :bound_by_water, style: "display: block" %>
+    <%= form.number_field :bound_by_water %>
+  </div>
+
+  <div>
+    <%= form.label :on_municipal_water_sewer, style: "display: block" %>
+    <%= form.number_field :on_municipal_water_sewer %>
+  </div>
+
+  <div>
+    <%= form.label :title_insurance_issued, style: "display: block" %>
+    <%= form.number_field :title_insurance_issued %>
+  </div>
+
+  <div>
+    <%= form.label :title_insurance_denied, style: "display: block" %>
+    <%= form.number_field :title_insurance_denied %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,62 @@
+<%= form_with(model: property_transaction) do |form| %>
+  <% if property_transaction.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(property_transaction.errors.count, "error") %> prohibited this property_transaction from being saved:</h2>
+
+      <ul>
+        <% property_transaction.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :language, style: "display: block" %>
+    <%= form.number_field :language %>
+  </div>
+
+  <div>
+    <%= form.label :first_homeowner_name, style: "display: block" %>
+    <%= form.text_field :first_homeowner_name %>
+  </div>
+
+  <div>
+    <%= form.label :second_homeowner_name, style: "display: block" %>
+    <%= form.text_field :second_homeowner_name %>
+  </div>
+
+  <div>
+    <%= form.label :third_homeowner_name, style: "display: block" %>
+    <%= form.text_field :third_homeowner_name %>
+  </div>
+
+  <div>
+    <%= form.label :is_owner, style: "display: block" %>
+    <%= form.number_field :is_owner %>
+  </div>
+
+  <div>
+    <%= form.label :purshase_date, style: "display: block" %>
+    <%= form.datetime_field :purshase_date %>
+  </div>
+
+  <div>
+    <%= form.label :property_value, style: "display: block" %>
+    <%= form.text_field :property_value %>
+  </div>
+
+  <div>
+    <%= form.label :property_type_id, style: "display: block" %>
+    <%= form.text_field :property_type_id %>
+  </div>
+
+  <div>
+    <%= form.label :quotation_id, style: "display: block" %>
+    <%= form.text_field :quotation_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

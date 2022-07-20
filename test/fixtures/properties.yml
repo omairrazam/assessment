@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lot_number: MyString
+  address: MyText
+  city: MyString
+  postal_code: MyString
+  bound_by_water: 1
+  on_municipal_water_sewer: 1
+  title_insurance_issued: 1
+  title_insurance_denied: 1
+
+two:
+  lot_number: MyString
+  address: MyText
+  city: MyString
+  postal_code: MyString
+  bound_by_water: 1
+  on_municipal_water_sewer: 1
+  title_insurance_issued: 1
+  title_insurance_denied: 1

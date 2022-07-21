@@ -24,8 +24,8 @@ class PropertyTransactionsController < ApplicationController
     @property_transaction = PropertyTransaction.new(property_transaction_params)
 
     respond_to do |format|
-      if @property_transaction.save
-        format.html { redirect_to edit_quotation_url(@property_transaction.quotation), notice: "Property transaction was successfully created." }
+      if @property_transaction.save!
+        format.html { redirect_to new_quotation_url, notice: "Property transaction was successfully created." }
         format.json { render :show, status: :created, location: @property_transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class PropertyTransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @property_transaction.update(property_transaction_params)
-        format.html { redirect_to edit_quotation_url(@property_transaction.quotation), notice: "Property transaction was successfully updated." }
+        format.html { redirect_to new_quotation_url, notice: "Property transaction was successfully updated." }
         format.json { render :show, status: :ok, location: @property_transaction }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,26 @@ class PropertyTransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def property_transaction_params
-      params.require(:property_transaction).permit(:language, :first_homeowner_name, :second_homeowner_name, :third_homeowner_name, :is_owner, :purshase_date, :property_value, :property_type_id, :quotation_id)
+      params.require(:property_transaction).permit(
+        :language, 
+        :first_homeowner_name, 
+        :second_homeowner_name, 
+        :third_homeowner_name, 
+        :is_owner,
+        :purshase_date, 
+        :property_value, 
+        :property_type_id, 
+        :quotation_id,
+        :request_a_callback_phone,
+        :request_a_callback_best_moment,
+        property_attributes: [
+          :id, :lot_number, :address, 
+          :city, :postal_code, :on_municipal_water_sewer, :title_insurance_issued, :title_insurance_denied,
+          :bound_by_water, :_destroy
+        ],
+        insurance_attributes: [
+          :id, :notes, :referral_agent_name, :referral_agent_email, :_destroy
+        ]
+      )
     end
 end

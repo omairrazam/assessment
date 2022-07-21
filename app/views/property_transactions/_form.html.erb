@@ -1,67 +1,159 @@
-<%= form_with(model: property_transaction) do |form| %>
-  <% if property_transaction.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(property_transaction.errors.count, "error") %> prohibited this property_transaction from being saved:</h2>
 
-      <ul>
-        <% property_transaction.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<h1 class="font-medium leading-tight text-4xl mt-0 mb-2 text-blue-600">Insurance Premium</h1>
+<h2 class="font-small leading-tight text-4xl mt-0 mb-2 text-gray-600"><%= @quotation.insurance_value%></h2>
+
+
+<div data-controller="popup-handler"> 
+    <%= render partial: 'property_transactions/popup_manager' %>
+  <%= form_with(model: property_transaction, html: {data: {popup_handler_target: 'mainForm'}}) do |form| %>
+    <h1 class="font-medium leading-tight text-4xl mt-0 mb-2 text-blue-600"> Transaction Information </h1>
+
+    <% if property_transaction.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(property_transaction.errors.count, "error") %> prohibited this property_transaction from being saved:</h2>
+
+        <ul>
+          <% property_transaction.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field :quotation_id, value: quotation.id %>
+    <%= form.hidden_field :request_a_callback_phone, data: { popup_handler_target: 'requestPhoneFieldInForm'} %>
+    <%= form.hidden_field :request_a_callback_best_moment, data: { popup_handler_target: 'bestMomentFieldInForm'}  %>
+
+    <div>
+      <%= form.label :language, style: "display: block" %>
+      <%= form.select(:language , PropertyTransaction.languages.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_transaction.language}, {class: "ui dropdown search"} ) %>
+    </div>
+
+    <p>Homeowner(s): Name(s):*</p>
+    <div class="flex">
+      <div>
+        <%= form.text_field :first_homeowner_name, required: true %>
+      </div>
+
+      <div>
+        <%= form.text_field :second_homeowner_name, placeholder: '2nd Homeowner Name', required: true %>
+      </div>
+
+      <div>
+        <%= form.text_field :third_homeowner_name, placeholder: '3rd Homeowner Name', required: true %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label 'Property type*', style: "display: block" %>
+      <%= form.select(:property_type_id , PropertyType.all.collect { |property| [ property.name, property.id ] }, {selected: property_transaction.property_type_id}, {class: "ui dropdown search"} ) %>
+    </div>
+
+    <div>
+      <%= form.label 'Are you presently the owner of that property ?', style: "display: block" %>
+      <%= form.select(:is_owner , PropertyTransaction.is_owners.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_transaction.is_owner}, {class: "ui dropdown search"} ) %>
+    </div>
+
+    <div>
+      <%= form.label 'Purchase date*', style: "display: block" %>
+      <%= form.date_field :purshase_date, required: true %>
+      <p>You must already own your property.</p>
+    </div>
+    <br>
+    <div>
+      <p>Property value (municipal assessment): <%= quotation.municipal_evaluation %>$</p>
+      <%= form.hidden_field :property_value, value: quotation.municipal_evaluation %>
+    </div>
+
+    <%= form.fields_for  :property do |property_form| %>
+      <h1 class="font-medium leading-tight text-4xl mt-0 mb-2 text-blue-600"> Property Legal Description </h1>
+      <p><b>Indicate (Mandatory fields):*</b></p>
+      <div>
+        <%= property_form.label 'Lot number(s)*', style: "display: block" %>
+        <%= property_form.text_field :lot_number, required: true %>
+
+        <p class="mt-1 mb-1">(You can find this lot number on your tax account. This is not the ID number but the lot number, cadaster number or legal description).</p>
+      </div>
+
+      <div>
+        <%= property_form.label 'Property Address:*', style: "display: block" %>
+        <%= property_form.text_area :address, required: true %>
+      </div>
+
+      <div>
+        <%= property_form.label 'City*', style: "display: block" %>
+        <%= property_form.text_field :city, required: true %>
+      </div>
+
+      <div>
+        <%= property_form.label 'Postal Code*', style: "display: block" %>
+        <%= property_form.text_field :postal_code, required: true %>
+      </div>
+
+      <h1 class="font-medium leading-tight text-4xl mt-0 mb-2 text-blue-600">Information regarding the property</h1>
+
+      <div>
+        <label style="display: block">Is the Insured Property bound by water (lac, stream, river, etc.)?* </label>
+        <%= property_form.select(:bound_by_water , Property.bound_by_waters.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_form.object.bound_by_water}, {class: "ui dropdown search"} ) %>
+      </div>
+
+      <div>
+        <%= property_form.label 'Is the Insured Property on Municipal Water and Municipal Sewer)?*', style: "display: block" %>
+        <%= property_form.select(:on_municipal_water_sewer , Property.on_municipal_water_sewers.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_form.object.bound_by_water}, {class: "ui dropdown search"} ) %>
+      </div>
+
+      <div>
+        <%= property_form.label 'Has a title insurance already been issued for the insured property according to the client ?*', style: "display: block" %>
+        <%= property_form.select(:title_insurance_issued , Property.title_insurance_issueds.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_form.object.bound_by_water}, {class: "ui dropdown search"} ) %>
+      </div>
+
+      <div>
+        <%= property_form.label "Has a title insurance been denied for the insured property, to the best of the client's knowledge?*", style: "display: block" %>
+        <%= property_form.select(:title_insurance_denied , Property.title_insurance_denieds.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_form.object.bound_by_water}, {class: "ui dropdown search"} ) %>
+      </div>
+    <% end %>
+
+    <hr class="mt-5 mb-5">
+
+    <%= form.fields_for :insurance do |insurance_form| %>
+      <div>
+        <%= insurance_form.label :notes, style: "display: block" %>
+        <%= insurance_form.text_area :notes %>
+      </div>
+
+      <div>
+        <%= insurance_form.label :referral_agent_name, style: "display: block" %>
+        <%= insurance_form.text_field :referral_agent_name %>
+      </div>
+
+      <div>
+        <%= insurance_form.label :referral_agent_email, style: "display: block" %>
+        <%= insurance_form.text_field :referral_agent_email %>
+      </div>
+    <% end %>
+
+    <div>
+      <%= form.submit 'Request A Callback', class: 'px-6
+      py-2.5
+      mt-2
+      bg-blue-600
+      text-white
+      font-medium
+      text-xs
+      leading-tight
+      uppercase
+      rounded
+      shadow-md
+      hover:bg-blue-700 hover:shadow-lg
+      focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+      active:bg-blue-800 active:shadow-lg
+      transition
+      duration-150
+      ease-in-out
+      mr-1' %>
     </div>
   <% end %>
+  <br>
+  <br>
+</div>
 
-  <div>
-    <%= form.label :language, style: "display: block" %>
-    <%= form.select(:language , PropertyTransaction.languages.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_transaction.language}, {class: "ui dropdown search"} ) %>
-  </div>
-
-  <div>
-    <%= form.label :first_homeowner_name, style: "display: block" %>
-    <%= form.text_field :first_homeowner_name %>
-  </div>
-
-  <div>
-    <%= form.label :second_homeowner_name, style: "display: block" %>
-    <%= form.text_field :second_homeowner_name %>
-  </div>
-
-  <div>
-    <%= form.label :third_homeowner_name, style: "display: block" %>
-    <%= form.text_field :third_homeowner_name %>
-  </div>
-
-  <div>
-    <%= form.label :is_owner, style: "display: block" %>
-    <%= form.select(:is_owner , PropertyTransaction.is_owners.keys.collect { |option| [ option.capitalize, option ] }, {selected: property_transaction.is_owner}, {class: "ui dropdown search"} ) %>
-  </div>
-
-  <div>
-    <%= form.label :purshase_date, style: "display: block" %>
-    <%= form.datetime_field :purshase_date %>
-  </div>
-
-  <div>
-    <%= form.label :property_value, style: "display: block" %>
-    <%= form.text_field :property_value %>
-  </div>
-
-  <div>
-    <%= form.label :property_type_id, style: "display: block" %>
-    <%= form.select(:property_type_id , PropertyType.all.collect { |property| [ property.name, property.id ] }, {selected: property_transaction.property_type_id}, {class: "ui dropdown search"} ) %>
-  </div>
-
-  <div>
-    <%= form.hidden_field :quotation_id%>
-  </div>
-
-  <%= form.fields_for :address do |address_subform| %>
-    # fields for the associated address object
-    address_subform.text_field :street
-    address_subform.text_field :number
-  <% end %>
-  
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>

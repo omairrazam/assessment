@@ -10,54 +10,66 @@
       </ul>
     </div>
   <% end %>
+  <h1 class="font-medium leading-tight text-4xl mt-0 mb-2 text-blue-600">Quotation Form</h1>
+  <div class="flex">
+    <div class="mr-2">
+      <div>
+        <%= form.text_field :first_name, placeholder: 'First name*', required: true %>
+      </div>
 
-  <div>
-    <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name %>
+      <div>
+        <%= form.text_field :last_name, placeholder: 'Last name*', required: true  %>
+      </div>
+
+      <div>
+        <%= form.email_field :email, placeholder: 'Email*', required: true %>
+      </div>
+
+      <div>
+        <%= form.phone_field :phone, placeholder: 'Phone*', required: true %>
+      </div>
+
+      <div>
+        <%= form.number_field :municipal_evaluation, placeholder: 'Municipal Evaluation of the property*', required: true %>
+      </div>
+    </div>
+    <div>
+      <div>
+        <%= form.text_field :address, placeholder: 'Address*', required: true %>
+      </div>
+
+      <div>
+        <%= form.text_field :postal_code, placeholder: 'Postal code*', required: true %>
+      </div>
+
+      <div>
+        <%= form.text_field :city, placeholder: 'City*', required: true %>
+      </div>
+
+      <div>
+        <%= form.text_field :province, placeholder: 'Province*', required: true %>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name %>
+  <div class="mt-2">
+    <%= form.submit 'Get a Quote', class:"px-6
+      py-2.5
+      bg-blue-600
+      text-white
+      font-medium
+      text-xs
+      leading-tight
+      uppercase
+      rounded
+      shadow-md
+      hover:bg-blue-700 hover:shadow-lg
+      focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+      active:bg-blue-800 active:shadow-lg
+      transition
+      duration-150
+      ease-in-out
+      mr-1" %>
   </div>
-
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div>
-    <%= form.label :municipal_evaluation, style: "display: block" %>
-    <%= form.text_field :municipal_evaluation %>
-  </div>
-
-  <div>
-    <%= form.label :address, style: "display: block" %>
-    <%= form.text_area :address %>
-  </div>
-
-  <div>
-    <%= form.label :postal_code, style: "display: block" %>
-    <%= form.text_area :postal_code %>
-  </div>
-
-  <div>
-    <%= form.label :city, style: "display: block" %>
-    <%= form.text_area :city %>
-  </div>
-
-  <div>
-    <%= form.label :province, style: "display: block" %>
-    <%= form.text_area :province %>
-  </div>
-
-
-  <div>
-    <%= form.submit %>
-  </div>
+  <p>*Mandatory fields</p>
 <% end %>
-<hr>
-<% if quotation.persisted? %>
-  <%= render "property_transactions/form", property_transaction: quotation.property_transaction %>
-<% end %>
-

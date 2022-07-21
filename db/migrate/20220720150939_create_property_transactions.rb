@@ -9,7 +9,6 @@ class CreatePropertyTransactions < ActiveRecord::Migration[7.0]
       t.datetime :purshase_date
       t.string :property_value
       t.belongs_to :property_type, null: false, foreign_key: true
-      t.belongs_to :quotation, null: false, foreign_key: true
 
       t.timestamps
     end

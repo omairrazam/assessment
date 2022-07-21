@@ -10,7 +10,6 @@ class CreateQuotations < ActiveRecord::Migration[7.0]
       t.string :postal_code
       t.string :city
       t.string :province
-      t.belongs_to :insurance, null: false, foreign_key: true
 
       t.timestamps
     end

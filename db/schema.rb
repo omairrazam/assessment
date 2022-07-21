@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_20_162616) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_20_210643) do
   create_table "insurances", force: :cascade do |t|
     t.text "notes"
     t.string "referral_agent_name"
@@ -41,10 +41,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_162616) do
     t.datetime "purshase_date"
     t.string "property_value"
     t.integer "property_type_id", null: false
-    t.integer "quotation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "property_id", null: false
+    t.integer "insurance_id", null: false
+    t.integer "quotation_id", null: false
+    t.string "request_a_callback_phone"
+    t.string "request_a_callback_best_moment"
+    t.index ["insurance_id"], name: "index_property_transactions_on_insurance_id"
     t.index ["property_id"], name: "index_property_transactions_on_property_id"
     t.index ["property_type_id"], name: "index_property_transactions_on_property_type_id"
     t.index ["quotation_id"], name: "index_property_transactions_on_quotation_id"
@@ -66,32 +70,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_162616) do
     t.string "postal_code"
     t.string "city"
     t.string "province"
-    t.integer "insurance_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["insurance_id"], name: "index_quotations_on_insurance_id"
   end
 
-  create_table "transactions", force: :cascade do |t|
-    t.integer "language"
-    t.string "first_homeowner_name"
-    t.string "second_homeowner_name"
-    t.string "third_homeowner_name"
-    t.integer "is_owner"
-    t.datetime "purshase_date"
-    t.string "property_value"
-    t.integer "property_type_id", null: false
-    t.integer "quotation_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["property_type_id"], name: "index_transactions_on_property_type_id"
-    t.index ["quotation_id"], name: "index_transactions_on_quotation_id"
-  end
-
+  add_foreign_key "property_transactions", "insurances"
   add_foreign_key "property_transactions", "properties"
   add_foreign_key "property_transactions", "property_types"
   add_foreign_key "property_transactions", "quotations"
-  add_foreign_key "quotations", "insurances"
-  add_foreign_key "transactions", "property_types"
-  add_foreign_key "transactions", "quotations"
 end

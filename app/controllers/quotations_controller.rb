@@ -12,24 +12,31 @@ class QuotationsController < ApplicationController
 
   # GET /quotations/new
   def new
+    create_types
     @quotation = Quotation.new
   end
 
   # GET /quotations/1/edit
   def edit
-    if @quotation.property_transaction.blank?
-      @quotation.build_property_transaction
+    @property_transaction = @quotation.property_transaction
+
+    if @property_transaction.blank?
+      @property_transaction = PropertyTransaction.new
+      @property_transaction.build_property
+      @property_transaction.build_insurance
+      @property_transaction.first_homeowner_name = @quotation.full_name
+      @property_transaction.property.address = @quotation.address
+      @property_transaction.property.city = @quotation.city
+      @property_transaction.property.postal_code = @quotation.postal_code
     end
   end
 
   # POST /quotations or /quotations.json
   def create
-    @insurance = Insurance.new
     @quotation = Quotation.new(quotation_params)
-    @quotation.insurance = @insurance
 
     respond_to do |format|
-      if @insurance.save && @quotation.save
+      if @quotation.save
         format.html { redirect_to edit_quotation_url(@quotation), notice: "Quotation was successfully created." }
         format.json { render :show, status: :created, location: @quotation }
       else
@@ -74,5 +81,20 @@ class QuotationsController < ApplicationController
         :first_name, :last_name, :email, :phone, :municipal_evaluation, :address, :postal_code, :city, 
         :referral_agent_email, :province
       )
+    end
+
+    def create_types
+      if PropertyType.count == 0
+        PropertyType.upsert_all(
+          [
+            'Single-family Dwelling', 'Condominium', 
+            'Undivided co-ownership', 'Duplex', 
+            'Triplex', 'Quadruplex', '5 Logis', 
+            '6 Logis', 'Vacant Property'
+          ].map do |name|
+              {name: name}
+          end
+        )
+      end
     end
 end
